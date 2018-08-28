@@ -48,5 +48,5 @@ if __name__ == '__main__':
 
     names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
     #pca = PCAAnalisys(mnist_train_images, mnist_train_labels, labels_unique_name=names, n_components=3)
-    tsne = TSNEAnalisys(x, y, labels_unique_name=names, n_components=2)
+    tsne = TSNEAnalisys(x, y, labels_unique_name=names, n_components=2, n_iter=5000, n_iter_without_progress=1000)
     tsne.projections_plot()

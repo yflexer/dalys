@@ -56,6 +56,7 @@ if __name__ == '__main__':
     #mnist_train_labels = mnist.train_labels()[:1000]
     #mnist_test_images = mnist.test_images()[:1000]
     #mnist_test_labels = mnist.test_labels()[:1000]
+
     from sklearn.datasets import load_digits
     digits = load_digits()
     x = digits.data
