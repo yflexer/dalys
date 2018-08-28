@@ -3,10 +3,11 @@ from base_estimator import BaseEstimator
 
 
 class TSNEAnalisys(BaseEstimator):
-    def __init__(self, samples, labels, n_components=2, perplexity=30,
+    def __init__(self, samples, labels, labels_unique_name=None, n_components=2, perplexity=30,
                  init='random', n_iter=1000, n_iter_without_progress=300,
                  early_exaggeration=12, verbose=0, scale_axis=0, scaled=False):
-        super().__init__(samples, labels, scale_axis=scale_axis, scaled=scaled)
+        super().__init__(samples, labels, labels_unique_name=labels_unique_name,
+                         scale_axis=scale_axis, scaled=scaled)
         self._n_components = n_components
         self._ca = TSNE(n_components=self._n_components, perplexity=perplexity,
                         init=init, n_iter=n_iter, n_iter_without_progress=n_iter_without_progress,
@@ -26,6 +27,7 @@ class TSNEAnalisys(BaseEstimator):
 
 
 if __name__ == '__main__':
+    '''
     import mnist
     from pca import PCAAnalisys
 
@@ -34,23 +36,17 @@ if __name__ == '__main__':
     mnist_test_images = mnist.test_images()[:1000].reshape(1000, 28*28)
     mnist_test_labels = mnist.test_labels()[:1000]
 
-    pca = PCAAnalisys(mnist_train_images, mnist_train_labels, n_components=50)
+    pca = PCAAnalisys(mnist_train_images, mnist_train_labels, n_components=100)
     data = pca.get_reduce_data()
-    tsne = TSNEAnalisys(data, mnist_train_labels, n_components=2, perplexity=40, scaled=True, verbose=1)
+    tsne = TSNEAnalisys(data, mnist_train_labels, n_components=2, perplexity=20, scaled=True, verbose=1, n_iter=10000)
     tsne.projections_plot()
+    '''
+    from sklearn.datasets import load_digits
+    digits = load_digits()
+    x = digits.data
+    y = digits.target
 
-    '''
-    print(mnist_test_images.shape)
-    row, col, _ = mnist_test_images.shape
-    mnist_test_images = mnist_test_images.reshape(row, 28*28)
-    my_pca = PCAAnalisys(mnist_test_images, mnist_test_labels)
-    my_pca.variance_explained_init(explained_variance=0.95)
-    tsne = TSNE(n_components=2, perplexity=10)
-    reduce = my_pca.get_reduce_data()
-    tsne_data = tsne.fit_transform(reduce)
-    print(tsne_data)
-    x = [item[0] for item in tsne_data]
-    y = [item[1] for item in tsne_data]
-    plt.scatter(x, y)
-    plt.show()
-    '''
+    names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+    #pca = PCAAnalisys(mnist_train_images, mnist_train_labels, labels_unique_name=names, n_components=3)
+    tsne = TSNEAnalisys(x, y, labels_unique_name=names, n_components=2)
+    tsne.projections_plot()

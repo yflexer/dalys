@@ -7,11 +7,13 @@ from abc import ABC, abstractmethod
 
 
 class BaseEstimator(ABC):
-    def __init__(self, samples, labels, scale_axis=0, scaled=False):
+    def __init__(self, samples, labels, labels_unique_name=None, scale_axis=0, scaled=False):
         self._markers = [key for key in marker_dict.keys()]
         self._samples = samples
         self._labels = labels
         self._unique_labels = np.unique(labels)
+        self._labels_unique_name = labels_unique_name
+        self._legend = self._labels_unique_name if labels_unique_name else self._unique_labels
         self._n_classes = len(self._unique_labels)
         self._scaled = scaled
         self._scale_axis = scale_axis
@@ -68,7 +70,7 @@ class BaseEstimator(ABC):
                 item = self._class_list[m]
                 color, marker = self._style[m]
                 plt.scatter(item[k], item[j], c=color, marker=marker)
-                plt.legend(self._unique_labels)
+                plt.legend(self._legend)
         plt.show()
 
 

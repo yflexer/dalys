@@ -5,8 +5,9 @@ from base_estimator import BaseEstimator
 
 
 class PCAAnalisys(BaseEstimator):
-    def __init__(self, samples, labels, n_components=3, scale_axis=0, scaled=False):
-        super().__init__(samples, labels, scale_axis=scale_axis, scaled=scaled)
+    def __init__(self, samples, labels, labels_unique_name=None, n_components=3, scale_axis=0, scaled=False):
+        super().__init__(samples, labels, labels_unique_name=labels_unique_name,
+                         scale_axis=scale_axis, scaled=scaled)
         self._n_components = n_components
         self._ca = PCA(n_components=self._n_components)
         self._components_list = list([list() for i in range(self._n_components)])
@@ -50,10 +51,17 @@ class PCAAnalisys(BaseEstimator):
 
 
 if __name__ == '__main__':
-    import mnist
-    mnist_train_images = mnist.train_images()[:7000]
-    mnist_train_labels = mnist.train_labels()[:7000]
-    mnist_test_images = mnist.test_images()[:1000]
-    mnist_test_labels = mnist.test_labels()[:1000]
-    pca = PCAAnalisys(mnist_train_images, mnist_train_labels, n_components=3)
+    #import mnist
+    #mnist_train_images = mnist.train_images()[:1000]
+    #mnist_train_labels = mnist.train_labels()[:1000]
+    #mnist_test_images = mnist.test_images()[:1000]
+    #mnist_test_labels = mnist.test_labels()[:1000]
+    from sklearn.datasets import load_digits
+    digits = load_digits()
+    x = digits.data
+    y = digits.target
+
+    names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+    #pca = PCAAnalisys(mnist_train_images, mnist_train_labels, labels_unique_name=names, n_components=3)
+    pca = PCAAnalisys(x, y, labels_unique_name=names, n_components=2)
     pca.projections_plot()
