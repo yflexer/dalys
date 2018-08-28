@@ -68,13 +68,16 @@ class BaseEstimator(ABC):
                 item = self._class_list[m]
                 color, marker = self._style[m]
                 plt.scatter(item[k], item[j], c=color, marker=marker)
+                plt.legend(self._unique_labels)
         plt.show()
 
 
 if __name__ == '__main__':
     import mnist
+    from sklearn.datasets import load_digits
     mnist_train_images = mnist.train_images()[:7000]
     mnist_train_labels = mnist.train_labels()[:7000]
     mnist_test_images = mnist.test_images()[:1000]
     mnist_test_labels = mnist.test_labels()[:1000]
+    digits = load_digits()
     ca = BaseEstimator(mnist_train_images, mnist_train_labels)
