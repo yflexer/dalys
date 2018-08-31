@@ -20,9 +20,6 @@ class PCAAnalisys(BaseEstimator):
         self.__init__(self._samples, self._labels, n_components=n_components,
                       scale_axis=scale_axis, scaled=scaled)
 
-    def get_reduce_data(self):
-        return self._reduce
-
     def explained_variance(self):
         return self._ca.explained_variance_
 
@@ -65,4 +62,5 @@ if __name__ == '__main__':
     names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
     #pca = PCAAnalisys(mnist_train_images, mnist_train_labels, labels_unique_name=names, n_components=3)
     pca = PCAAnalisys(x, y, labels_unique_name=names, n_components=2)
+    print(pca.get_reduce_data())
     pca.projections_plot()

@@ -28,6 +28,9 @@ class BaseEstimator(ABC):
     def set_params(self):
         pass
 
+    def get_reduce_data(self):
+        return self._reduce
+
     def _generate_styles(self):
         self._style, previous = list(), None
         while len(self._style) != self._n_classes:

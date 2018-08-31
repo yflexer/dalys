@@ -5,7 +5,7 @@ marker_dict = {".": "point", ",": "pixel", "o": "circle", "v": "triangle_down",
                "1": "tri_down", "2": "tri_up", "3": "tri_left", "4": "tri_right",
                "8": "octagon", "s": "square", "p": "pentagon", "*": "star",
                "h": "hexagon1", "H": "hexagon2", "+": "plus", "D": "diamond",
-               "d": "thin_diamond", "|": "vline", "_": "hline"}
+               "d": "thin_diamond"}
 
 
 exclude_key = ['white', 'xkcd:white']
