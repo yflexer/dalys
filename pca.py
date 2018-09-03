@@ -4,7 +4,7 @@ from sklearn.decomposition import PCA
 from base_estimator import BaseEstimator
 
 
-class PCAAnalisys(BaseEstimator):
+class PCATool(BaseEstimator):
     def __init__(self, samples, labels, labels_unique_name=None, n_components=3, scale_axis=0, scaled=False):
         super().__init__(samples, labels, labels_unique_name=labels_unique_name,
                          scale_axis=scale_axis, scaled=scaled)
@@ -61,6 +61,6 @@ if __name__ == '__main__':
 
     names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
     #pca = PCAAnalisys(mnist_train_images, mnist_train_labels, labels_unique_name=names, n_components=3)
-    pca = PCAAnalisys(x, y, labels_unique_name=names, n_components=2)
+    pca = PCATool(x, y, labels_unique_name=names, n_components=2)
     print(pca.get_reduce_data())
     pca.projections_plot()

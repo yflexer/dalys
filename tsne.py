@@ -2,7 +2,7 @@ from sklearn.manifold import TSNE
 from base_estimator import BaseEstimator
 
 
-class TSNEAnalisys(BaseEstimator):
+class TSNETool(BaseEstimator):
     def __init__(self, samples, labels, labels_unique_name=None, n_components=2, perplexity=30,
                  init='random', n_iter=1000, n_iter_without_progress=300,
                  early_exaggeration=12, verbose=0, scale_axis=0, scaled=False):
@@ -48,5 +48,5 @@ if __name__ == '__main__':
 
     names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
     #pca = PCAAnalisys(mnist_train_images, mnist_train_labels, labels_unique_name=names, n_components=3)
-    tsne = TSNEAnalisys(x, y, labels_unique_name=names, n_components=2, n_iter=5000)
+    tsne = TSNETool(x, y, labels_unique_name=names, n_components=2, n_iter=5000)
     tsne.projections_plot()

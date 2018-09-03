@@ -6,6 +6,13 @@ from utils import marker_dict, colors
 from abc import ABC, abstractmethod
 
 
+def plotter_config(self, k=0, j=0):
+    for m in range(self._n_classes):
+        item = self._class_list[m]
+        color, marker = self._style[m]
+        plt.scatter(item[k], item[j], c=color, marker=marker)
+
+
 class BaseEstimator(ABC):
     def __init__(self, samples, labels, labels_unique_name=None, scale_axis=0, scaled=False):
         self._markers = [key for key in marker_dict.keys()]
@@ -62,24 +69,33 @@ class BaseEstimator(ABC):
     def projections_plot(self):
         plt.rcParams.update({'figure.max_open_warning': 0})
         self._generate_styles()
-        s_labels = ''.join(str(c) for c in range(self._n_components))
-        perms = np.sort(list(permutations(s_labels, 2)))
-        perms = list(set((int(a), int(b)) if a <= b else (int(a), int(b)) for a, b in perms))
-        for i in range(len(perms)):
-            k = perms[i][0]
-            j = perms[i][1]
-            plt.figure(i)
-            for m in range(self._n_classes):
-                item = self._class_list[m]
-                color, marker = self._style[m]
-                plt.scatter(item[k], item[j], c=color, marker=marker)
-                plt.legend(self._legend)
+        if len(self._reduce[0]) > 1:
+            s_labels = ''.join(str(c) for c in range(self._n_components))
+            perms = np.sort(list(permutations(s_labels, 2)))
+            perms = list(set((int(a), int(b)) if a <= b else (int(a), int(b)) for a, b in perms))
+            for i in range(len(perms)):
+                k = perms[i][0]
+                j = perms[i][1]
+                plt.figure(i)
+                for m in range(self._n_classes):
+                    item = self._class_list[m]
+                    color, marker = self._style[m]
+                    plt.scatter(item[k], item[j], c=color, marker=marker)
+            plt.legend(self._legend)
+            plt.show()
+            return
+        for m in range(self._n_classes):
+            item = self._class_list[m]
+            color, marker = self._style[m]
+            plt.scatter(item[0], np.zeros(len(item[0])), c=color, marker=marker)
+        plt.legend(self._legend)
         plt.show()
 
 
 if __name__ == '__main__':
     import mnist
     from sklearn.datasets import load_digits
+    
     mnist_train_images = mnist.train_images()[:7000]
     mnist_train_labels = mnist.train_labels()[:7000]
     mnist_test_images = mnist.test_images()[:1000]
