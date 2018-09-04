@@ -74,9 +74,7 @@ class BaseEstimator(ABC):
         if len(self._reduce[0]) > 1:
             s_labels = ''.join(str(c) for c in range(self._n_components))
             perms = np.sort(list(permutations(s_labels, 2)))
-            print(perms)
             perms = list(set((int(a), int(b)) if a <= b else (int(a), int(b)) for a, b in perms))
-            print(perms)
             for i in range(len(perms)):
                 k = perms[i][0]
                 j = perms[i][1]
