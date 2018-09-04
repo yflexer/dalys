@@ -5,12 +5,10 @@ from base_estimator import BaseEstimator
 
 
 class PCATool(BaseEstimator):
-    def __init__(self, samples, labels, labels_unique_name=None, n_components=3, scale_axis=0, scaled=False):
-        super().__init__(samples, labels, labels_unique_name=labels_unique_name,
+    def __init__(self, samples, labels, labels_unique_name=None, n_components=2, scale_axis=0, scaled=False):
+        super().__init__(samples, labels, n_components, labels_unique_name=labels_unique_name,
                          scale_axis=scale_axis, scaled=scaled)
-        self._n_components = n_components
         self._ca = PCA(n_components=self._n_components)
-        self._components_list = list([list() for i in range(self._n_components)])
         self._reduce = self._ca.fit_transform(self._scaled_data)
         self._fill_components()
         self._extract_classes()
@@ -61,6 +59,6 @@ if __name__ == '__main__':
 
     names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
     #pca = PCAAnalisys(mnist_train_images, mnist_train_labels, labels_unique_name=names, n_components=3)
-    pca = PCATool(x, y, labels_unique_name=names, n_components=2)
+    pca = PCATool(x, y, labels_unique_name=names, n_components=3)
     print(pca.get_reduce_data())
     pca.projections_plot()

@@ -6,11 +6,9 @@ from base_estimator import BaseEstimator
 
 class LDATool(BaseEstimator):
     def __init__(self, samples, labels, labels_unique_name=None, n_components=3, scale_axis=0, scaled=False):
-        super().__init__(samples, labels, labels_unique_name=labels_unique_name,
+        super().__init__(samples, labels, n_components, labels_unique_name=labels_unique_name,
                          scale_axis=scale_axis, scaled=scaled)
-        self._n_components = n_components
         self._ca = LinearDiscriminantAnalysis(n_components=self._n_components)
-        self._components_list = list([list() for i in range(self._n_components)])
         self._reduce = self._ca.fit_transform(self._scaled_data, self._labels)
         self._fill_components()
         self._extract_classes()
