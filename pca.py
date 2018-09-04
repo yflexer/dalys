@@ -60,5 +60,5 @@ if __name__ == '__main__':
     names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
     #pca = PCAAnalisys(mnist_train_images, mnist_train_labels, labels_unique_name=names, n_components=3)
     pca = PCATool(x, y, labels_unique_name=names, n_components=3)
-    print(pca.get_reduce_data())
+    #print(pca.get_reduce_data())
     pca.projections_plot()

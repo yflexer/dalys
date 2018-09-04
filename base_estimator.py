@@ -6,13 +6,6 @@ from utils import marker_dict, colors
 from abc import ABC, abstractmethod
 
 
-def plotter_config(self, k=0, j=0):
-    for m in range(self._n_classes):
-        item = self._class_list[m]
-        color, marker = self._style[m]
-        plt.scatter(item[k], item[j], c=color, marker=marker)
-
-
 class BaseEstimator(ABC):
     def __init__(self, samples, labels, n_components, labels_unique_name=None, scale_axis=0, scaled=False):
         self._markers = [key for key in marker_dict.keys()]
