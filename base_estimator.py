@@ -34,13 +34,13 @@ class BaseEstimator(ABC):
         return self._reduce
 
     def _generate_styles(self):
-        self._style, previous = list(), None
+        self._style, previous = list(), list()
         while len(self._style) != self._n_classes:
             color = np.random.choice(colors)
             marker = np.random.choice(self._markers)
-            if previous == color:
+            if color in previous:
                 continue
-            previous = color
+            previous.append(color)
             self._style.append((color, marker))
 
     def _get_scale_data(self, samples):
