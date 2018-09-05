@@ -63,7 +63,7 @@ class BaseEstimator(ABC):
         plt.rcParams.update({'figure.max_open_warning': 0})
         self._generate_styles()
         if len(self._reduce[0]) > 1:
-            s_labels = ''.join(str(c) for c in range(self._n_components))
+            s_labels = ''.join(str(c) for c in range(len(self._reduce[0])))
             perms = np.sort(list(permutations(s_labels, 2)))
             perms = list(set((int(a), int(b)) if a <= b else (int(a), int(b)) for a, b in perms))
             for i in range(len(perms)):
