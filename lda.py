@@ -25,6 +25,10 @@ if __name__ == '__main__':
     mnist_train_labels = mnist.train_labels()[:1000]
     mnist_test_images = mnist.test_images()[:1000]
     mnist_test_labels = mnist.test_labels()[:1000]
+
+    mnist_names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+    lda = LDATool(mnist_train_images, mnist_train_labels, labels_unique_name=mnist_names, n_components=2)
+    lda.projections_plot()
     '''
     from sklearn.datasets import load_iris
     iris = load_iris()

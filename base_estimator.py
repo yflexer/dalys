@@ -57,9 +57,7 @@ class BaseEstimator(ABC):
                                 for j in range(self._n_classes)])
         for i in range(len(self._labels)):
             for j in range(self._n_components):
-                for item in self._unique_labels:
-                    if self._labels[i] == item:
-                        self._class_list[item][j].append(self._components_list[j][i])
+                    self._class_list[self._labels[i]][j].append(self._components_list[j][i])
 
     def projections_plot(self):
         plt.rcParams.update({'figure.max_open_warning': 0})

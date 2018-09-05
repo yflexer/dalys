@@ -34,7 +34,7 @@ if __name__ == '__main__':
     mnist_test_images = mnist.test_images()[:1000].reshape(1000, 28*28)
     mnist_test_labels = mnist.test_labels()[:1000]
 
-    pca = PCAAnalisys(mnist_train_images, mnist_train_labels, n_components=100)
+     = PCAAnalisys(mnist_train_images, mnist_train_labels, n_components=100)
     data = pca.get_reduce_data()
     tsne = TSNEAnalisys(data, mnist_train_labels, n_components=2, perplexity=20, scaled=True, verbose=1, n_iter=10000)
     tsne.projections_plot()
