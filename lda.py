@@ -1,5 +1,3 @@
-import numpy as np
-import matplotlib.pyplot as plt
 from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 from base_estimator import BaseEstimator
 
@@ -31,11 +29,15 @@ if __name__ == '__main__':
     lda.projections_plot()
     '''
     from sklearn.datasets import load_iris
+
     iris = load_iris()
     x = iris.data
     y = iris.target
 
     names = ['Setosa', 'Versicolour', 'Virginica']
-    #mnist_names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+    # mnist_names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
     lda = LDATool(x, y, labels_unique_name=names, n_components=2)
-    lda.projections_plot()
+    style = [('red', '.'), ('blue', '.'), ('green', '.')]
+    lda.projections_plot(style=style)
+    lda.set_params(n_components=1)
+    lda.projections_plot(style=style)

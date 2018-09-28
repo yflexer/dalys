@@ -34,17 +34,18 @@ if __name__ == '__main__':
     mnist_test_images = mnist.test_images()[:1000].reshape(1000, 28*28)
     mnist_test_labels = mnist.test_labels()[:1000]
 
-     = PCAAnalisys(mnist_train_images, mnist_train_labels, n_components=100)
+    PCAAnalisys(mnist_train_images, mnist_train_labels, n_components=100)
     data = pca.get_reduce_data()
     tsne = TSNEAnalisys(data, mnist_train_labels, n_components=2, perplexity=20, scaled=True, verbose=1, n_iter=10000)
     tsne.projections_plot()
     '''
     from sklearn.datasets import load_digits
+
     digits = load_digits()
     x = digits.data
     y = digits.target
 
     names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-    #pca = PCAAnalisys(mnist_train_images, mnist_train_labels, labels_unique_name=names, n_components=3)
+    # pca = PCAAnalisys(mnist_train_images, mnist_train_labels, labels_unique_name=names, n_components=3)
     tsne = TSNETool(x, y, labels_unique_name=names, n_components=2)
     tsne.projections_plot()

@@ -23,7 +23,6 @@ class BaseEstimator(ABC):
         self._scaled_data = None
         self._style = None
         self._reduce = None
-        self._components_list = list([list() for i in range(self._n_components)])
         self._get_scale_data(samples)
 
     @abstractmethod
@@ -34,41 +33,44 @@ class BaseEstimator(ABC):
         return self._reduce
 
     def _generate_styles(self):
+        if self._style:
+            return
         self._style, previous = list(), list()
         while len(self._style) != self._n_classes:
             color = np.random.choice(colors)
             marker = np.random.choice(self._markers)
-            if color in previous:
-                continue
-            previous.append(color)
-            self._style.append((color, marker))
+            if color not in previous:
+                previous.append(color)
+                self._style.append((color, marker))
 
     def _get_scale_data(self, samples):
         self._scaled_data = scale([item.flatten() for item in samples],
                                   axis=self._scale_axis) if not self._scaled else samples
 
     def _fill_components(self):
+        self._components_list = list([list() for i in range(self._n_components)])
         for i in range(len(self._scaled_data)):
             for j in range(self._n_components):
                 self._components_list[j].append(self._reduce[i][j])
 
     def _extract_classes(self):
         self._class_list = list([[list() for i in range(self._n_components)]
-                                for j in range(self._n_classes)])
+                                 for j in range(self._n_classes)])
         for i in range(len(self._labels)):
             for j in range(self._n_components):
-                    self._class_list[self._labels[i]][j].append(self._components_list[j][i])
+                self._class_list[self._labels[i]][j].append(self._components_list[j][i])
 
-    def projections_plot(self):
-        plt.rcParams.update({'figure.max_open_warning': 0})
-        self._generate_styles()
+    def projections_plot(self, style=None):
+        if not style:
+            self._generate_styles()
+        else:
+            self._style = style
         if len(self._reduce[0]) > 1:
             s_labels = ''.join(str(c) for c in range(len(self._reduce[0])))
             perms = np.sort(list(permutations(s_labels, 2)))
             perms = list(set((int(a), int(b)) if a <= b else (int(a), int(b)) for a, b in perms))
             for i in range(len(perms)):
-                k = perms[i][0]
-                j = perms[i][1]
+                k, j = perms[i][0], perms[i][1]
                 plt.figure(i)
                 for m in range(self._n_classes):
                     item = self._class_list[m]
@@ -83,4 +85,3 @@ class BaseEstimator(ABC):
             plt.scatter(item[0], np.zeros(len(item[0])), c=color, marker=marker)
             plt.legend(self._legend)
         plt.show()
-

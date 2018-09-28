@@ -40,22 +40,25 @@ class PCATool(BaseEstimator):
         return next(x[0] for x in enumerate(self._pca.explained_variance_ratio_.cumsum())
                     if x[1] > explained_variance)
 
-    def variance_explained_init(self, explained_variance=0.80, scale_axis=0):
+    def variance_explained_init(self, explained_variance=0.80, scale_axis=0, scaled=False):
         n_components = self.components_for_explained_variance(explained_variance)
-        self.set_params(n_components, scale_axis=scale_axis)
+        self.set_params(n_components, scale_axis=scale_axis, scaled=scaled)
 
 
 if __name__ == '__main__':
-    #import mnist
-    #mnist_train_images = mnist.train_images()[:1000]
-    #mnist_train_labels = mnist.train_labels()[:1000]
-    #mnist_test_images = mnist.test_images()[:1000]
-    #mnist_test_labels = mnist.test_labels()[:1000]
+    # import mnist
+    # mnist_train_images = mnist.train_images()[:1000]
+    # mnist_train_labels = mnist.train_labels()[:1000]
+    # mnist_test_images = mnist.test_images()[:1000]
+    # mnist_test_labels = mnist.test_labels()[:1000]
 
     from sklearn.datasets import load_digits
+
     digits = load_digits()
     x = digits.data
     y = digits.target
     names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
     pca = PCATool(x, y, labels_unique_name=names, n_components=2)
+    # pca.explained_plot()
+
     pca.projections_plot()

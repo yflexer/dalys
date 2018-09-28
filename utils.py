@@ -7,7 +7,6 @@ marker_dict = {".": "point", ",": "pixel", "o": "circle", "v": "triangle_down",
                "h": "hexagon1", "H": "hexagon2", "+": "plus", "D": "diamond",
                "d": "thin_diamond"}
 
-
 exclude_key = ['white', 'xkcd:white', 'floralwhite', 'whitesmoke']
 std_color = tuple(key for key in mcolors.BASE_COLORS if key not in exclude_key)
 css4_color = tuple(key for key in mcolors.CSS4_COLORS if key not in exclude_key)
