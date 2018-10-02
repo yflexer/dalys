@@ -5,8 +5,9 @@ from base_estimator import BaseEstimator
 
 
 class PCATool(BaseEstimator):
-    def __init__(self, samples, labels, labels_unique_name=None, n_components=2, scale_axis=0, scaled=False):
-        super().__init__(samples, labels, n_components, labels_unique_name=labels_unique_name,
+    def __init__(self, samples, labels, n_components=2, style=None, labels_unique_name=None,
+                 scale_axis=0, scaled=False):
+        super().__init__(samples, labels, n_components, style=style, labels_unique_name=labels_unique_name,
                          scale_axis=scale_axis, scaled=scaled)
         self._ca = PCA(n_components=self._n_components)
         self._reduce = self._ca.fit_transform(self._scaled_data)
@@ -15,8 +16,8 @@ class PCATool(BaseEstimator):
         self._pca = PCA(n_components=len(self._scaled_data[0])).fit(self._scaled_data)
 
     def set_params(self, n_components, scale_axis=0, scaled=False):
-        self.__init__(self._samples, self._labels, n_components=n_components,
-                      scale_axis=scale_axis, scaled=scaled)
+        self.__init__(self._samples, self._labels, n_components=n_components, style=self._style,
+                      labels_unique_name=self._labels_unique_name, scale_axis=scale_axis, scaled=scaled)
 
     def explained_variance(self):
         return self._ca.explained_variance_
@@ -58,7 +59,7 @@ if __name__ == '__main__':
     x = digits.data
     y = digits.target
     names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-    pca = PCATool(x, y, labels_unique_name=names, n_components=2)
-    # pca.explained_plot()
-
+    pca = PCATool(x, y, labels_unique_name=names, n_components=3)
+    pca.projections_plot(grid='23')
     pca.projections_plot()
+    pca.projections_plot_3d()

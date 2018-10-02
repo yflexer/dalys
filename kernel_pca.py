@@ -2,10 +2,10 @@ from sklearn.decomposition import KernelPCA
 from base_estimator import BaseEstimator
 
 
-class kPCATool(BaseEstimator):
-    def __init__(self, samples, labels, labels_unique_name=None, n_components=2, kernel='rbf',
+class KPCATool(BaseEstimator):
+    def __init__(self, samples, labels, n_components=2, style=None, labels_unique_name=None, kernel='rbf',
                  fit_inverse_transform=True, gamma=1, scale_axis=0, scaled=False):
-        super().__init__(samples, labels, n_components=n_components, labels_unique_name=labels_unique_name,
+        super().__init__(samples, labels, n_components=n_components, style=style, labels_unique_name=labels_unique_name,
                          scale_axis=scale_axis, scaled=scaled)
         self._ca = KernelPCA(n_components=n_components, kernel=kernel, fit_inverse_transform=fit_inverse_transform,
                              gamma=gamma)
@@ -15,7 +15,8 @@ class kPCATool(BaseEstimator):
 
     def set_params(self, n_components, kernel='rbf', fit_inverse_transform=True,
                    gamma=1, scale_axis=0, scaled=False):
-        self.__init__(self._samples, self._labels, n_components=n_components, kernel=kernel,
+        self.__init__(self._samples, self._labels, n_components=n_components, style=self._style,
+                      labels_unique_name=self._labels_unique_name, kernel=kernel,
                       fit_inverse_transform=fit_inverse_transform, gamma=gamma, scale_axis=scale_axis,
                       scaled=scaled)
 
@@ -32,5 +33,7 @@ if __name__ == '__main__':
     plt.scatter(X[y == 0, 0], X[y == 0, 1], color='red')
     plt.scatter(X[y == 1, 0], X[y == 1, 1], color='blue')
     plt.show()
-    kpca = kPCATool(X, y, n_components=2, kernel='rbf', gamma=2, scaled=True)
-    kpca.projections_plot(style=[('red', '.'), ('blue', '.')])
+    style = [('red', '.'), ('blue', '.')]
+    kpca = KPCATool(X, y, n_components=3, kernel='rbf', gamma=2, scaled=True)
+    kpca.set_style(style)
+    kpca.projections_plot(grid='22')

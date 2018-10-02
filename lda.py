@@ -3,8 +3,9 @@ from base_estimator import BaseEstimator
 
 
 class LDATool(BaseEstimator):
-    def __init__(self, samples, labels, labels_unique_name=None, n_components=3, scale_axis=0, scaled=False):
-        super().__init__(samples, labels, n_components, labels_unique_name=labels_unique_name,
+    def __init__(self, samples, labels, n_components=3, style=None, labels_unique_name=None, scale_axis=0,
+                 scaled=False):
+        super().__init__(samples, labels, n_components, style=style, labels_unique_name=labels_unique_name,
                          scale_axis=scale_axis, scaled=scaled)
         self._ca = LinearDiscriminantAnalysis(n_components=self._n_components)
         self._reduce = self._ca.fit_transform(self._scaled_data, self._labels)
@@ -12,7 +13,8 @@ class LDATool(BaseEstimator):
         self._extract_classes()
 
     def set_params(self, n_components, scale_axis=0, scaled=False):
-        self.__init__(self._samples, self._labels, n_components=n_components,
+        self.__init__(self._samples, self._labels, n_components=n_components, style=self._style,
+                      labels_unique_name=self._labels_unique_name,
                       scale_axis=scale_axis, scaled=scaled)
 
 
@@ -36,8 +38,6 @@ if __name__ == '__main__':
 
     names = ['Setosa', 'Versicolour', 'Virginica']
     # mnist_names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-    lda = LDATool(x, y, labels_unique_name=names, n_components=2)
     style = [('red', '.'), ('blue', '.'), ('green', '.')]
-    lda.projections_plot(style=style)
-    lda.set_params(n_components=1)
-    lda.projections_plot(style=style)
+    lda = LDATool(x, y, style=style, labels_unique_name=names, n_components=1)
+    lda.projections_plot()
