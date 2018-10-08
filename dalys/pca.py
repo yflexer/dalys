@@ -1,14 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
-from base_estimator import BaseEstimator
+from dalys.base_estimator import BaseEstimator
 
 
 class PCATool(BaseEstimator):
     def __init__(self, samples, labels, n_components=2, style=None, labels_unique_name=None,
                  scale_axis=0, scaled=False):
-        super().__init__(samples, labels, n_components, style=style, labels_unique_name=labels_unique_name,
-                         scale_axis=scale_axis, scaled=scaled)
+        super().__init__(samples, labels, n_components, style, labels_unique_name, scale_axis, scaled)
         self._ca = PCA(n_components=self._n_components)
         self._reduce = self._ca.fit_transform(self._scaled_data)
         self._fill_components()
@@ -47,19 +46,11 @@ class PCATool(BaseEstimator):
 
 
 if __name__ == '__main__':
-    # import mnist
-    # mnist_train_images = mnist.train_images()[:1000]
-    # mnist_train_labels = mnist.train_labels()[:1000]
-    # mnist_test_images = mnist.test_images()[:1000]
-    # mnist_test_labels = mnist.test_labels()[:1000]
-
     from sklearn.datasets import load_digits
 
     digits = load_digits()
     x = digits.data
     y = digits.target
     names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-    pca = PCATool(x, y, labels_unique_name=names, n_components=3)
-    pca.projections_plot(grid='23')
+    pca = PCATool(x, y, labels_unique_name=names, n_components=2)
     pca.projections_plot()
-    pca.projections_plot_3d()

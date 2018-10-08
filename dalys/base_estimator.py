@@ -3,22 +3,21 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.preprocessing import scale
 from itertools import combinations_with_replacement
-from utils import marker_dict, colors
+from dalys.utils.utils import marker_dict, colors
 from abc import ABC, abstractmethod
 
 
 class BaseEstimator(ABC):
-    def __init__(self, samples, labels, n_components, style=None, labels_unique_name=None,
-                 scale_axis=0, scaled=False):
+    def __init__(self, samples, labels, n_components, style, labels_unique_name, scale_axis, scaled):
         self._markers = [key for key in marker_dict.keys()]
         self._samples = samples
         self._labels = labels
         self._unique_labels = np.unique(labels)
         self._labels_unique_name = labels_unique_name
-        self._legend = self._labels_unique_name if labels_unique_name else self._unique_labels
+        self._legend = labels_unique_name if labels_unique_name else self._unique_labels
         self._n_classes = len(self._unique_labels)
-        self._scaled = scaled
         self._scale_axis = scale_axis
+        self._scaled = scaled
         self._n_components = n_components
         self._title = self.__class__.__name__
         self._style = style
@@ -76,7 +75,7 @@ class BaseEstimator(ABC):
             for i in range(len(perms)):
                 k, j = perms[i][0], perms[i][1]
                 if grid:
-                    fig.add_subplot(int(grid+str(i+1)))
+                    fig.add_subplot(int(str(grid)+str(i+1)))
                 else:
                     fig = plt.figure(i)
                     fig.canvas.set_window_title(self._title + ' 2D plot')
@@ -92,18 +91,18 @@ class BaseEstimator(ABC):
                 fig.canvas.set_window_title(self._title + ' 2D subplot')
             plt.show()
             return
+        plt.xlabel('component 0')
+        plt.ylabel('component 1')
         for m in range(self._n_classes):
             item = self._class_list[m]
             color, marker = self._style[m]
             plt.scatter(item[0], np.zeros(len(item[0])), c=color, marker=marker)
-            plt.xlabel('component 0')
-            plt.ylabel('component 1')
             plt.legend(self._legend)
         fig.canvas.set_window_title(self._title + ' 2D plot (1 dimensional data)')
         plt.show()
 
     def projections_plot_3d(self, components=(0, 1, 2)):
-        if len(self._reduce) < 3:
+        if len(self._reduce[0]) < 3:
             raise ValueError('the number of components should be 3 or more')
         fig = plt.figure()
         fig.canvas.set_window_title(self._title + ' 3D plot')
@@ -116,4 +115,5 @@ class BaseEstimator(ABC):
         ax.set_xlabel('component {0}'.format(i))
         ax.set_ylabel('component {0}'.format(j))
         ax.set_zlabel('component {0}'.format(k))
+        ax.legend(self._legend)
         plt.show()
