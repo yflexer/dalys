@@ -15,28 +15,3 @@ class LDATool(BaseEstimator):
         self.__init__(self._samples, self._labels, n_components=n_components, style=self._style,
                       labels_unique_name=self._labels_unique_name,
                       scale_axis=scale_axis, scaled=scaled)
-
-
-if __name__ == '__main__':
-    import matplotlib.pyplot as plt
-    from sklearn.datasets import load_iris
-
-    iris = load_iris()
-    X = iris.data
-    y = iris.target
-
-    names = ['Setosa', 'Versicolour', 'Virginica']
-    style = [('red', '.'), ('blue', '.'), ('green', '.')]
-
-    plt.scatter(X[y == 0, 3], X[y == 0, 1], color='red')
-    plt.scatter(X[y == 1, 3], X[y == 1, 1], color='blue')
-    plt.scatter(X[y == 2, 3], X[y == 2, 1], color='green')
-    plt.ylabel('sepal width')
-    plt.xlabel('petal width')
-    plt.legend(names)
-
-    lda = LDATool(X, y, style=style, labels_unique_name=names, n_components=2)
-    lda.projections_plot()
-
-    lda.set_params(n_components=1)
-    lda.projections_plot()

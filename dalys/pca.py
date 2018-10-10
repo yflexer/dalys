@@ -43,14 +43,3 @@ class PCATool(BaseEstimator):
     def variance_explained_init(self, explained_variance=0.80, scale_axis=0, scaled=False):
         n_components = self.components_for_explained_variance(explained_variance)
         self.set_params(n_components, scale_axis=scale_axis, scaled=scaled)
-
-
-if __name__ == '__main__':
-    from sklearn.datasets import load_digits
-
-    digits = load_digits()
-    x = digits.data
-    y = digits.target
-    names = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
-    pca = PCATool(x, y, labels_unique_name=names, n_components=2)
-    pca.projections_plot()
