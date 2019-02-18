@@ -1,14 +1,13 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
-from sklearn.preprocessing import scale
 from itertools import combinations_with_replacement
-from dalys.utils.utils import marker_dict, colors
+from dalys.utils.utils import marker_dict, colors, scalers
 from abc import ABC, abstractmethod
 
 
 class BaseEstimator(ABC):
-    def __init__(self, samples, labels, n_components, style, labels_unique_name, scale_axis, scaled):
+    def __init__(self, samples, labels, n_components, style, labels_unique_name, preprocessing, scaled):
         self._markers = [key for key in marker_dict.keys()]
         self._samples = samples
         self._labels = labels
@@ -16,15 +15,16 @@ class BaseEstimator(ABC):
         self._labels_unique_name = labels_unique_name
         self._legend = labels_unique_name if labels_unique_name else self._unique_labels
         self._n_classes = len(self._unique_labels)
-        self._scale_axis = scale_axis
+        self._preprocessing = preprocessing
         self._scaled = scaled
         self._n_components = n_components
         self._title = self.__class__.__name__
         self._style = style
+        self._scaler = None
         self._ca = None
         self._scaled_data = None
         self._reduce = None
-        self._get_scale_data(samples, self._scaled)
+        self._get_scale_data()
         self._generate_styles()
 
     @abstractmethod
@@ -50,9 +50,10 @@ class BaseEstimator(ABC):
                 previous.append(color)
                 self._style.append((color, marker))
 
-    def _get_scale_data(self, samples, scaled):
-        self._scaled_data = scale([item.flatten() for item in samples],
-                                  axis=self._scale_axis) if not scaled else samples
+    def _get_scale_data(self):
+        self._scaler = next(item[1] for item in scalers if item[0] == self._preprocessing)
+        self._scaled_data = self._scaler.fit_transform(
+            [item.flatten() for item in self._samples]) if not self._scaled else self._samples
 
     def _fill_components(self):
         self._components_list = list([list() for i in range(self._n_components)])
@@ -75,30 +76,30 @@ class BaseEstimator(ABC):
             for i in range(len(perms)):
                 k, j = perms[i][0], perms[i][1]
                 if grid:
-                    fig.add_subplot(int(str(grid)+str(i+1)))
+                    fig.add_subplot(int(str(grid) + str(i + 1)))
                 else:
                     fig = plt.figure(i)
                     fig.canvas.set_window_title(self._title + ' 2D plot')
-                plt.xlabel('component {0}'.format(k), fontsize=fontsize)
-                plt.ylabel('component {0}'.format(j), fontsize=fontsize)
                 for m in range(self._n_classes):
                     item = self._class_list[m]
                     color, marker = self._style[m]
                     plt.scatter(item[k], item[j], c=color, marker=marker)
+                plt.xlabel('component {0}'.format(k), fontsize=fontsize)
+                plt.ylabel('component {0}'.format(j), fontsize=fontsize)
                 if not grid:
                     plt.legend(self._legend)
             if grid:
                 fig.canvas.set_window_title(self._title + ' 2D subplot')
             plt.show()
             return
-        plt.xlabel('component 0')
-        plt.ylabel('component 1')
         for m in range(self._n_classes):
             item = self._class_list[m]
             color, marker = self._style[m]
             plt.scatter(item[0], np.zeros(len(item[0])), c=color, marker=marker)
             plt.legend(self._legend)
         fig.canvas.set_window_title(self._title + ' 2D plot (1 dimensional data)')
+        plt.xlabel('component 0')
+        plt.ylabel('component 1')
         plt.show()
 
     def projections_plot_3d(self, components=(0, 1, 2)):
