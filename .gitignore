@@ -4,6 +4,6 @@
 /examples/.ipynb_checkpoints/
 /dalys/__pycache__/
 /dalys/utils/__pycache__/
-/README-Template.md
-/examples/umap_test.py
 /dalys/test.py
+README-Template.md
+examples/umap_test.py
