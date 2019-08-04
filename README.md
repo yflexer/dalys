@@ -47,20 +47,8 @@ this means that labels will be numbered in ascending order (default = None).
 * *scaled* - this flag need to control preprocessing of your data, if your data is allready processed, you must set "True".
 
 ### Installing
-
-Requirements:
-* numpy >= 0.15.1
-* scikit-learn >= 0.19.0
-* matplotlib >= 2.2.2
-
-First you must to use **cd** command for open the directory where requirements.txt is located.
-
-For installing requirements you need to use command **pip install -r requirements.txt**
-
-If you want to use Anaconda, you need **conda install --yes --file requirements.txt**
+pip install dalys
 
 ## Authors
 
 * **Timothy Tkachenko** - Machine Learning Researcher
- 
-    *Linkedin:* https://www.linkedin.com/in/timofey-tkachenko-928627175/
